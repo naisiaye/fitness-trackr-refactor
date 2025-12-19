@@ -1,35 +1,23 @@
+//changed import usePage to NavLink
 import { NavLink } from "react-router";
+import { useAuth } from "../auth/AuthContext";
 
-/** Navbar with site navigation links */
+// Navbar component with navigation links
 export default function Navbar() {
+  const { token, logout } = useAuth();
   return (
     <header>
       <p>Fitness Trackr</p>
       <nav>
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Activities
-        </NavLink>
-        <NavLink
-          to="/logout"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Log Out
-        </NavLink>
-        <NavLink
-          to="/register"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Register
-        </NavLink>
-        <NavLink
-          to="/login"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Login
-        </NavLink>
+        <NavLink to="/activities">Activities</NavLink>
+        {token ? (
+          <a onClick={() => logout()}>Log out</a>
+        ) : (
+          <>
+            <NavLink to="/register">Register</NavLink>
+            <NavLink to="/login">Login</NavLink>
+          </>
+        )}
       </nav>
     </header>
   );
